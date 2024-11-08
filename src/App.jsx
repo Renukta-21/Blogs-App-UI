@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import loginService from './services/loginService'
 
 function App() {
@@ -7,12 +7,17 @@ function App() {
   const [error, setError] = useState(null)
   const [user, setUser] = useState(null)
 
+  useEffect(()=>{
+    const userLogged = window.localStorage.getItem('loggedUser')
+    if(userLogged) setUser(JSON.parse(userLogged))
+  },[])
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       const userResponse = await loginService.login({ username, password })
       if (userResponse.error) setError(userResponse.error)
       else {
+        window.localStorage.setItem('loggedUser', JSON.stringify(userResponse))
         setUser(userResponse)
         setPassword('')
         setUsername('')
@@ -32,14 +37,18 @@ function App() {
           error={error}
         />
       )}
-      {user&& 
-      <h2>Welcome back, {user.username}</h2> }
+      {user && <h2>Welcome back, {user.username}</h2>}
     </div>
   )
 }
 
 function Welcome({ user }) {
-  return <h2>Hola {user.username}</h2>
+  return (
+    <div>
+      <h2>Hola {user.username}</h2>
+
+    </div>
+  )
 }
 
 function LoginForm({ handleSubmit, setUsername, setPassword, error }) {
@@ -62,7 +71,7 @@ function LoginForm({ handleSubmit, setUsername, setPassword, error }) {
       <br />
       <br />
       <button type="submit">Login</button>
-      {error && <p style={{color:'red'}}>Error: {error}</p>}
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
     </form>
   )
 }

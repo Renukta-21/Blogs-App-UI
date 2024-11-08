@@ -7,7 +7,6 @@ const login = async(userLogging) => {
         body: JSON.stringify(userLogging)
     })
     const data = await response.json()
-    console.log(data)
     /* console.log(`User
         username:${userLogging.username}
         password:${userLogging.password}`) */

@@ -11,8 +11,22 @@ const getAll =async ()=>{
     return data
 }
 let token
-const setToken = token=>{
-    token = `Bearer ${token}`
+const setToken = actualToken=>{
+    token = `Bearer ${actualToken}`
 
 }
-export default { getAll, setToken}
+
+const createPost = async(newBlog)=>{
+    console.log(token)
+    const response = await fetch(baseUrl,{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization': token
+        }, body: JSON.stringify(newBlog)
+    })
+    const data = await response.json()
+    return data
+}
+
+export default { getAll, setToken, createPost}

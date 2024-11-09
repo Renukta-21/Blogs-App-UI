@@ -11,14 +11,19 @@ function App() {
   const [isloading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const userLogged = window.localStorage.getItem('loggedUser')
-    if (userLogged) setUser(JSON.parse(userLogged))
+    const storedUser = window.localStorage.getItem('loggedUser')
+    if (storedUser) {
+      const userLogged = JSON.parse(storedUser)
+      setUser(userLogged)
+      blogService.setToken(userLogged.token)
+    }
 
     blogService.getAll().then((blogs) => {
       setBlogs(blogs)
       setIsLoading(false)
     })
   }, [])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -38,7 +43,6 @@ function App() {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedUser')
-    window.location.reload();
     setUser(null)
   }
 
@@ -66,6 +70,20 @@ function App() {
 }
 
 function Welcome({ user, blogs, isloading, handleLogout }) {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const handleNewBlog = async(e) => {
+    e.preventDefault()
+    console.log('Title:', title)
+    console.log('Author:', author)
+    console.log('URL:', url)
+
+    const newBlog = { title, author, url }
+    const response = await blogService.createPost(newBlog)
+    console.log(response)
+  }
   return (
     <div>
       <h2>Hola {user.username}</h2>
@@ -95,10 +113,39 @@ function Welcome({ user, blogs, isloading, handleLogout }) {
       ) : (
         <p>No blogs to show yet</p>
       )}
+      <div>
+        <h2>Add new Blog</h2>
+        <form onSubmit={handleNewBlog}>
+          <label htmlFor="titleField">Title </label>
+          <input
+            type="text"
+            id="titleField"
+            onChange={({ target }) => setTitle(target.value)}
+          />
+          <br />
+          <br />
+          <label htmlFor="authorField">Author </label>
+          <input
+            type="text"
+            id="authorField"
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+          <br />
+          <br />
+          <label htmlFor="urlField">URL </label>
+          <input
+            type="text"
+            id="urlField"
+            onChange={({ target }) => setUrl(target.value)}
+          />
+          <br />
+          <br />
+          <button type="submit">Create</button>
+        </form>
+      </div>
     </div>
   )
 }
-
 function LoginForm({ handleSubmit, setUsername, setPassword, error }) {
   return (
     <form action="" onSubmit={handleSubmit}>

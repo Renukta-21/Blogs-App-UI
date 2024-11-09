@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogService'
 
-export default function Welcome({ user, blogs, isloading, handleLogout }) {
+export default function Welcome({ user, blogs, isloading, handleLogout, loginVisible, setLoginVisible }) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [message, setMessage] = useState('')
@@ -22,12 +22,13 @@ export default function Welcome({ user, blogs, isloading, handleLogout }) {
   }
   return (
     <div>
-      <h2>Hola {user.username}</h2>
-      <button onClick={handleLogout}>Logout</button>
+      <h2>{user && `Hola ${user.username}`} </h2>
+      <button onClick={()=> setLoginVisible(!loginVisible)}>{loginVisible ? 'cancel' : 'login'}</button>
+      {/* <button onClick={handleLogout}>Logout</button> */}
       {isloading ? (
         <p>Loading... please wait</p>
       ) : blogs && blogs.length > 0 ? (
-        <div style={{ display: 'flex', flexWrap: 'wrap' , gap:10}}>
+        <div style={{ display: 'flex', flexWrap: 'wrap' , gap:10, marginTop:'20px'}}>
           {blogs.map((b) => (
             <div key={b.id}>
               <p style={{display:'inline'}}>

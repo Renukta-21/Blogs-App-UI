@@ -10,6 +10,7 @@ function App() {
   const [blogs, setBlogs] = useState(null)
   const [error, setError] = useState(null)
   const [user, setUser] = useState(null)
+  const [loginVisible , setLoginVisible] = useState(false)
   const [isloading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -50,22 +51,31 @@ function App() {
 
   return (
     <div>
-      {user === null && (
+      {loginVisible 
+      && (<LoginForm
+        handleSubmit={handleSubmit}
+        setUsername={setUsername}
+        setPassword={setPassword}
+        error={error}
+      />)}
+      <Welcome
+          user={user}
+          blogs={blogs}
+          isloading={isloading}
+          handleLogout={handleLogout}
+          loginVisible={loginVisible}
+          setLoginVisible={setLoginVisible}
+        />
+
+
+      {/* {user === null && (
         <LoginForm
           handleSubmit={handleSubmit}
           setUsername={setUsername}
           setPassword={setPassword}
           error={error}
         />
-      )}
-      {user && (
-        <Welcome
-          user={user}
-          blogs={blogs}
-          isloading={isloading}
-          handleLogout={handleLogout}
-        />
-      )}
+      )} */}
     </div>
   )
 }

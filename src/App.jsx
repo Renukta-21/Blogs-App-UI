@@ -32,8 +32,8 @@ function App() {
         setIsLoading(false)
       } catch (error) {
         setError('Failed to fetch blogs. Please try again later.')
-        console.log(error) // Manejo de error en fetch
-        setIsLoading(false) // De todas formas, asegurarse de actualizar el estado de carga
+        console.log(error) 
+        setIsLoading(false) 
       }
     }
     fetchBlogs()

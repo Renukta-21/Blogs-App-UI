@@ -1,5 +1,4 @@
 export default function Welcome({ user, blogs, isloading }) {
-
   return (
     <div>
       <h2>{user && `Hola ${user.username}`} </h2>
@@ -7,13 +6,16 @@ export default function Welcome({ user, blogs, isloading }) {
       {isloading ? (
         <p>Loading... please wait</p>
       ) : blogs && blogs.length > 0 ? (
-        <div style={{ display: 'flex', flexWrap: 'wrap' , gap:10, marginTop:'20px'}}>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 10,
+            marginTop: '20px',
+          }}
+        >
           {blogs.map((b) => (
-            <div key={b.id}>
-              <p style={{display:'inline'}}>
-                Author: {b.author} Title: {b.title} Likes: {b.likes} URL: {b.url}
-              </p>
-            </div>
+            <Card key={b.id} {...b} />
           ))}
         </div>
       ) : (
@@ -22,3 +24,11 @@ export default function Welcome({ user, blogs, isloading }) {
     </div>
   )
 }
+
+const Card = ({ author, likes, title, url }) => (
+  <div>
+    <p style={{ display: 'inline' }}>
+      Author: {author} Title: {title} Likes: {likes} URL: {url}
+    </p>
+  </div>
+)

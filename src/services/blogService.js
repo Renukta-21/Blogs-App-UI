@@ -1,4 +1,4 @@
-const baseUrl = `/api/blogs`
+const baseUrl = `/api/blog`
 
 const getAll =async ()=>{
     const response = await fetch(baseUrl, {

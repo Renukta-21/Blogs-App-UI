@@ -3,6 +3,7 @@ import loginService from './services/loginService'
 import blogService from './services/blogService'
 import LoginForm from './components/LoginForm'
 import Welcome from './components/Welcome'
+import Toggable from './components/Toggable'
 
 function App() {
   const [username, setUsername] = useState('')
@@ -10,7 +11,7 @@ function App() {
   const [blogs, setBlogs] = useState(null)
   const [error, setError] = useState(null)
   const [user, setUser] = useState(null)
-  const [loginVisible , setLoginVisible] = useState(false)
+  const [loginVisible, setLoginVisible] = useState(false)
   const [isloading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -51,22 +52,22 @@ function App() {
 
   return (
     <div>
-      {loginVisible 
-      && (<LoginForm
-        handleSubmit={handleSubmit}
-        setUsername={setUsername}
-        setPassword={setPassword}
-        error={error}
-      />)}
-      <Welcome
-          user={user}
-          blogs={blogs}
-          isloading={isloading}
-          handleLogout={handleLogout}
-          loginVisible={loginVisible}
-          setLoginVisible={setLoginVisible}
+      <Toggable>
+        <LoginForm
+          handleSubmit={handleSubmit}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          error={error}
         />
-
+      </Toggable>
+      <Welcome
+        user={user}
+        blogs={blogs}
+        isloading={isloading}
+        handleLogout={handleLogout}
+        loginVisible={loginVisible}
+        setLoginVisible={setLoginVisible}
+      />
 
       {/* {user === null && (
         <LoginForm
@@ -79,6 +80,5 @@ function App() {
     </div>
   )
 }
-
 
 export default App

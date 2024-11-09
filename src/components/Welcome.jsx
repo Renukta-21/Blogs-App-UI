@@ -23,7 +23,6 @@ export default function Welcome({ user, blogs, isloading, handleLogout, loginVis
   return (
     <div>
       <h2>{user && `Hola ${user.username}`} </h2>
-      <button onClick={()=> setLoginVisible(!loginVisible)}>{loginVisible ? 'cancel' : 'login'}</button>
       {/* <button onClick={handleLogout}>Logout</button> */}
       {isloading ? (
         <p>Loading... please wait</p>

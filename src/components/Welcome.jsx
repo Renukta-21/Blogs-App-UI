@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 export default function Welcome({ user, blogs, isloading }) {
   return (
     <div>
@@ -25,10 +27,24 @@ export default function Welcome({ user, blogs, isloading }) {
   )
 }
 
-const Card = ({ author, likes, title, url }) => (
-  <div>
-    <p style={{ display: 'inline' }}>
-      Author: {author} Title: {title} Likes: {likes} URL: {url}
-    </p>
-  </div>
-)
+const Card = ({ author, likes, title, url }) => {
+  const [showDetails, setShowDetails] = useState(false)
+
+  return (
+    <div>
+      <p style={{ display: 'inline' }}>Title: {title}</p>
+      <button onClick={() => setShowDetails(!showDetails)}>
+        {showDetails ? 'Hide' : 'Show details'}
+      </button>
+      {showDetails && (
+        <div>
+          <p>URL: {url} </p>
+          <p>
+            Likes: {likes} <button>Like</button>
+          </p>
+          <p>Author: {author}</p>
+        </div>
+      )}
+    </div>
+  )
+}

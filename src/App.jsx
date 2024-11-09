@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import loginService from './services/loginService'
 import blogService from './services/blogService'
+import LoginForm from './components/LoginForm'
+import Welcome from './components/Welcome'
 
 function App() {
   const [username, setUsername] = useState('')
@@ -48,7 +50,6 @@ function App() {
 
   return (
     <div>
-      <h2>Login to App</h2>
       {user === null && (
         <LoginForm
           handleSubmit={handleSubmit}
@@ -69,105 +70,5 @@ function App() {
   )
 }
 
-function Welcome({ user, blogs, isloading, handleLogout }) {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
 
-  const handleNewBlog = async(e) => {
-    e.preventDefault()
-    console.log('Title:', title)
-    console.log('Author:', author)
-    console.log('URL:', url)
-
-    const newBlog = { title, author, url }
-    const response = await blogService.createPost(newBlog)
-    console.log(response)
-  }
-  return (
-    <div>
-      <h2>Hola {user.username}</h2>
-      <button onClick={handleLogout}>Logout</button>
-      {isloading ? (
-        <p>Loading... please wait</p>
-      ) : blogs && blogs.length > 0 ? (
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {blogs.map((b) => (
-            <div
-              key={b.id}
-              style={{
-                flex: '1 1 400px',
-                backgroundColor: 'red',
-                margin: '10px 10px',
-                padding: '10px',
-              }}
-            >
-              <hr />
-              <p>Author: {b.author}</p>
-              <p>Title: {b.title}</p>
-              <p>Likes: {b.likes}</p>
-              <small>URL: {b.url}</small>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>No blogs to show yet</p>
-      )}
-      <div>
-        <h2>Add new Blog</h2>
-        <form onSubmit={handleNewBlog}>
-          <label htmlFor="titleField">Title </label>
-          <input
-            type="text"
-            id="titleField"
-            onChange={({ target }) => setTitle(target.value)}
-          />
-          <br />
-          <br />
-          <label htmlFor="authorField">Author </label>
-          <input
-            type="text"
-            id="authorField"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-          <br />
-          <br />
-          <label htmlFor="urlField">URL </label>
-          <input
-            type="text"
-            id="urlField"
-            onChange={({ target }) => setUrl(target.value)}
-          />
-          <br />
-          <br />
-          <button type="submit">Create</button>
-        </form>
-      </div>
-    </div>
-  )
-}
-function LoginForm({ handleSubmit, setUsername, setPassword, error }) {
-  return (
-    <form action="" onSubmit={handleSubmit}>
-      <label htmlFor="usernameField">Username </label>
-      <input
-        type="text"
-        id="usernameField"
-        onChange={({ target }) => setUsername(target.value)}
-      />
-      <br />
-      <br />
-      <label htmlFor="passwordField">Password </label>
-      <input
-        type="text"
-        id="passwordField"
-        onChange={({ target }) => setPassword(target.value)}
-      />
-      <br />
-      <br />
-      <button type="submit">Login</button>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-    </form>
-  )
-}
 export default App

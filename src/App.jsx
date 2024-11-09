@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import loginService from './services/loginService'
 import blogService from './services/blogService'
 import LoginForm from './components/LoginForm'
@@ -15,6 +15,7 @@ function App() {
   const [loginVisible, setLoginVisible] = useState(false)
   const [isloading, setIsLoading] = useState(true)
   const [message, setMessage] = useState('')
+  const blogFormRef = useRef() 
 
   useEffect(() => {
     const storedUser = window.localStorage.getItem('loggedUser')
@@ -52,6 +53,7 @@ function App() {
     setUser(null)
   }
   const addNote =async noteObject =>{
+      blogFormRef.current.toggleVisibility()
       const response = await blogService.createPost(noteObject)
       if (response.error) {
         return setMessage(response.error)
@@ -78,7 +80,7 @@ function App() {
         loginVisible={loginVisible}
         setLoginVisible={setLoginVisible}
       />
-      <Toggable labelText = {'Post New Blog'}>
+      <Toggable labelText = {'Post New Blog'} ref={blogFormRef}>
         <NewBlogForm createNote={addNote} message={message}/>
       </Toggable>
 

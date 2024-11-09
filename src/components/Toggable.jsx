@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import React, { useImperativeHandle, useState } from 'react'
 
-function Toggable(props) {
+function Toggable(props, ref) {
   const [visible, setVisible] = useState(false)
   
   const text = visible ? 'cancel' : props.labelText ? props.labelText: 'Want to Login'  
-    
+  
+  useImperativeHandle(ref,()=>({toggleVisibility: ()=>setVisible(!visible)}))
   return (
     <div>
       {visible && <div>{props.children}</div>}
@@ -15,4 +16,4 @@ function Toggable(props) {
   )
 }
 
-export default Toggable
+export default React.forwardRef(Toggable)

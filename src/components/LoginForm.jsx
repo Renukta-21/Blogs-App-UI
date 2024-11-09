@@ -1,4 +1,4 @@
-export default function LoginForm({ handleSubmit, setUsername, setPassword, error }) {
+export default function LoginForm({username, password, handleSubmit, setUsername, setPassword, error }) {
     return (
 
       <form action="" onSubmit={handleSubmit}>
@@ -7,6 +7,7 @@ export default function LoginForm({ handleSubmit, setUsername, setPassword, erro
         <input
           type="text"
           id="usernameField"
+          value={username}
           onChange={({ target }) => setUsername(target.value)}
         />
         <br />
@@ -15,6 +16,7 @@ export default function LoginForm({ handleSubmit, setUsername, setPassword, erro
         <input
           type="text"
           id="passwordField"
+          value={password}
           onChange={({ target }) => setPassword(target.value)}
         />
         <br />

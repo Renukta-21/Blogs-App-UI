@@ -14,6 +14,7 @@ function App() {
   const [user, setUser] = useState(null)
   const [loginVisible, setLoginVisible] = useState(false)
   const [isloading, setIsLoading] = useState(true)
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     const storedUser = window.localStorage.getItem('loggedUser')
@@ -50,13 +51,21 @@ function App() {
     window.localStorage.removeItem('loggedUser')
     setUser(null)
   }
-
+  const addNote =async noteObject =>{
+      const response = await blogService.createPost(noteObject)
+      if (response.error) {
+        return setMessage(response.error)
+      }
+      setMessage('A new Blog by ' + response.author + ' was just added')
+  }
   return (
     <div>
       <Toggable>
         <LoginForm
           handleSubmit={handleSubmit}
+          username={username}
           setUsername={setUsername}
+          password={password}
           setPassword={setPassword}
           error={error}
         />
@@ -70,7 +79,7 @@ function App() {
         setLoginVisible={setLoginVisible}
       />
       <Toggable labelText = {'Post New Blog'}>
-        <NewBlogForm blogs={blogs}/>
+        <NewBlogForm createNote={addNote} message={message}/>
       </Toggable>
 
       {/* {user === null && (

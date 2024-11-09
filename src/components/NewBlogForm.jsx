@@ -1,35 +1,28 @@
 import { useState } from 'react'
-import blogService from '../services/blogService'
 
-function NewBlogForm({blogs}) {
+function NewBlogForm({ createNote, message }) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
-  const [message, setMessage] = useState('')
   const [url, setUrl] = useState('')
-  
-  const handleNewBlog = async (e) => {
-    e.preventDefault()
-    console.log('Title:', title)
-    console.log('Author:', author)
-    console.log('URL:', url)
 
-    const newBlog = { title, author, url }
-    const response = await blogService.createPost(newBlog)
-    if (response.error) {
-      return setMessage(response.error)
-    }
-    setMessage('A new Blog by ' + response.author + ' was just added')
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    createNote({ title, author, url })
+    setTitle('') 
+    setAuthor('') 
+    setUrl('') 
   }
-  
   return (
     <div>
       <h2>Add new Blog</h2>
-      <form onSubmit={handleNewBlog}>
+      <form
+        onSubmit={handleSubmit}>
         <label htmlFor="titleField">Title </label>
         <input
           type="text"
           id="titleField"
-          onChange={({ target }) => setTitle(target.value)}
+          value={title}
+          onChange={({ target }) => setTitle(target.value) }
         />
         <br />
         <br />
@@ -37,6 +30,7 @@ function NewBlogForm({blogs}) {
         <input
           type="text"
           id="authorField"
+          value={author}
           onChange={({ target }) => setAuthor(target.value)}
         />
         <br />
@@ -45,6 +39,7 @@ function NewBlogForm({blogs}) {
         <input
           type="text"
           id="urlField"
+          value={url}
           onChange={({ target }) => setUrl(target.value)}
         />
         <br />

@@ -1,7 +1,4 @@
-import { useState } from 'react'
-import blogService from '../services/blogService'
-
-export default function Welcome({ user, blogs, isloading, handleLogout, loginVisible, setLoginVisible }) {
+export default function Welcome({ user, blogs, isloading }) {
 
   return (
     <div>

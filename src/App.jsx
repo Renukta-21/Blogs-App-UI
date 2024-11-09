@@ -4,6 +4,7 @@ import blogService from './services/blogService'
 import LoginForm from './components/LoginForm'
 import Welcome from './components/Welcome'
 import Toggable from './components/Toggable'
+import NewBlogForm from './components/NewBlogForm'
 
 function App() {
   const [username, setUsername] = useState('')
@@ -68,6 +69,9 @@ function App() {
         loginVisible={loginVisible}
         setLoginVisible={setLoginVisible}
       />
+      <Toggable labelText = {'Post New Blog'}>
+        <NewBlogForm blogs={blogs}/>
+      </Toggable>
 
       {/* {user === null && (
         <LoginForm

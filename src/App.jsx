@@ -38,6 +38,8 @@ function App() {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedUser')
+    window.location.reload();
+    setUser(null)
   }
 
   return (

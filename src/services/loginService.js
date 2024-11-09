@@ -1,5 +1,6 @@
+const baseUrl =  '/api/login'
 const login = async(userLogging) => {
-    const response = await fetch('http://localhost:3006/api/login',{
+    const response = await fetch(baseUrl,{
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

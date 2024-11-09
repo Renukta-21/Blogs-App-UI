@@ -1,7 +1,7 @@
 const baseUrl = `/api/blogs`
 
 const getAll =async ()=>{
-    const response = await fetch('http://localhost:3006/api/blogs', {
+    const response = await fetch(baseUrl, {
         method:'GET',
         headers:{
             'Content-Type':'application/json'
@@ -10,5 +10,9 @@ const getAll =async ()=>{
     const data =await response.json()
     return data
 }
+let token
+const setToken = token=>{
+    token = `Bearer ${token}`
 
-export default { getAll}
+}
+export default { getAll, setToken}

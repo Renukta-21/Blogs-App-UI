@@ -5,7 +5,9 @@ function Toggable(props, ref) {
   
   const text = visible ? 'cancel' : props.labelText ? props.labelText: 'Want to Login'  
   
-  useImperativeHandle(ref,()=>({toggleVisibility: ()=>setVisible(!visible)}))
+  useImperativeHandle(ref,()=>({
+    toggleVisibility: ()=>setVisible(!visible)
+  }))
   return (
     <div>
       {visible && <div>{props.children}</div>}

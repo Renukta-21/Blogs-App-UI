@@ -25,10 +25,18 @@ function App() {
       blogService.setToken(userLogged.token)
     }
 
-    blogService.getAll().then((blogs) => {
-      setBlogs(blogs)
-      setIsLoading(false)
-    })
+    const fetchBlogs = async () => {
+      try {
+        const blogsData = await blogService.getAll()
+        setBlogs(blogsData)
+        setIsLoading(false)
+      } catch (error) {
+        setError('Failed to fetch blogs. Please try again later.')
+        console.log(error) // Manejo de error en fetch
+        setIsLoading(false) // De todas formas, asegurarse de actualizar el estado de carga
+      }
+    }
+    fetchBlogs()
   }, [])
 
   const handleSubmit = async (e) => {
@@ -40,11 +48,13 @@ function App() {
         window.localStorage.setItem('loggedUser', JSON.stringify(userResponse))
         blogService.setToken(userResponse.token)
         setUser(userResponse)
+        setError(null)
         setPassword('')
         setUsername('')
       }
     } catch (error) {
       console.log(error)
+      setError('An unexpected error occurred.')
     }
   }
 
@@ -83,7 +93,7 @@ function App() {
       <Toggable labelText = {'Post New Blog'} ref={blogFormRef}>
         <NewBlogForm createNote={addNote} message={message}/>
       </Toggable>
-
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       {/* {user === null && (
         <LoginForm
           handleSubmit={handleSubmit}
@@ -92,6 +102,7 @@ function App() {
           error={error}
         />
       )} */}
+
     </div>
   )
 }

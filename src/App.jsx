@@ -16,6 +16,7 @@ function App() {
   const [isloading, setIsLoading] = useState(true)
   const [message, setMessage] = useState('')
   const blogFormRef = useRef() 
+  const loginFormRef = useRef()
 
   useEffect(() => {
     const storedUser = window.localStorage.getItem('loggedUser')
@@ -47,6 +48,7 @@ function App() {
       else {
         window.localStorage.setItem('loggedUser', JSON.stringify(userResponse))
         blogService.setToken(userResponse.token)
+        loginFormRef.current.toggleVisibility()
         setUser(userResponse)
         setError(null)
         setPassword('')
@@ -72,16 +74,17 @@ function App() {
   }
   return (
     <div>
-      <Toggable>
-        <LoginForm
-          handleSubmit={handleSubmit}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          error={error}
-        />
-      </Toggable>
+      {user === null &&
+      <Toggable user={user} ref={loginFormRef}>
+      <LoginForm
+        handleSubmit={handleSubmit}
+        username={username}
+        setUsername={setUsername}
+        password={password}
+        setPassword={setPassword}
+        error={error}
+      />
+    </Toggable>}
       <Welcome
         user={user}
         blogs={blogs}
@@ -93,7 +96,8 @@ function App() {
       <Toggable labelText = {'Post New Blog'} ref={blogFormRef}>
         <NewBlogForm createNote={addNote} message={message}/>
       </Toggable>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {user !== null && error && <p style={{ color: 'red' }}>Error: {error}</p>}
+
       {/* {user === null && (
         <LoginForm
           handleSubmit={handleSubmit}

@@ -1,10 +1,18 @@
 import { useState } from 'react'
 
-export default function Welcome({ user, blogs, isloading }) {
+export default function Welcome({ user, blogs, isloading, handleLogout }) {
   return (
     <div>
-      <h2>{user && `Hola ${user.username}`} </h2>
-      {/* <button onClick={handleLogout}>Logout</button> */}
+      <div>
+        {user && (
+          <>
+            <h2>
+              Bienvenido de nuevo --- <b>{user.username}</b>
+            </h2>
+            <button onClick={handleLogout}>Logout</button>
+          </>
+        )}
+      </div>
       {isloading ? (
         <p>Loading... please wait</p>
       ) : blogs && blogs.length > 0 ? (

@@ -11,6 +11,7 @@ function App() {
   const [password, setPassword] = useState('')
   const [blogs, setBlogs] = useState(null)
   const [error, setError] = useState(null)
+  const [fetchErrors, setFetchErrors] = useState(null)
   const [user, setUser] = useState(null)
   const [loginVisible, setLoginVisible] = useState(false)
   const [isloading, setIsLoading] = useState(true)
@@ -32,7 +33,7 @@ function App() {
         setBlogs(blogsData)
         setIsLoading(false)
       } catch (error) {
-        setError('Failed to fetch blogs. Please try again later.')
+        setFetchErrors('Failed to fetch blogs. Please try again later.')
         console.log(error) 
         setIsLoading(false) 
       }
@@ -44,7 +45,7 @@ function App() {
     e.preventDefault()
     try {
       const userResponse = await loginService.login({ username, password })
-      if (userResponse.error) setError(userResponse.error)
+      if (userResponse.error) console.log(userResponse)
       else {
         window.localStorage.setItem('loggedUser', JSON.stringify(userResponse))
         blogService.setToken(userResponse.token)
@@ -96,7 +97,7 @@ function App() {
       <Toggable labelText = {'Post New Blog'} ref={blogFormRef}>
         <NewBlogForm createNote={addNote} message={message}/>
       </Toggable>
-      {user !== null && error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {fetchErrors && <p style={{ color: 'red' }}>Error: {fetchErrors}</p>}
 
       {/* {user === null && (
         <LoginForm

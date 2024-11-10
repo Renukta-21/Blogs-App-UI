@@ -33,8 +33,8 @@ function App() {
         setBlogs(blogsData)
         setIsLoading(false)
       } catch (error) {
+        console.log(error.message)
         setFetchErrors('Failed to fetch blogs. Please try again later.')
-        console.log(error) 
         setIsLoading(false) 
       }
     }
@@ -66,11 +66,11 @@ function App() {
     setUser(null)
   }
   const addNote =async noteObject =>{
-      blogFormRef.current.toggleVisibility()
       const response = await blogService.createPost(noteObject)
       if (response.error) {
         return setMessage(response.error)
       }
+      blogFormRef.current.toggleVisibility()
       setMessage('A new Blog by ' + response.author + ' was just added')
   }
   return (

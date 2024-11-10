@@ -7,6 +7,7 @@ const getAll =async ()=>{
             'Content-Type':'application/json'
         }
     })
+    /* if(!response.ok) throw new Error(`${response.url} does not exist`) */
     const data =await response.json()
     return data
     
@@ -30,4 +31,17 @@ const createPost = async(newBlog)=>{
     return data
 }
 
-export default { getAll, setToken, createPost}
+const putLike = async(object)=>{
+    const response = await fetch(`${baseUrl}/${object.id}`, {
+        method:'PUT',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }, body: JSON.stringify(object)
+    })
+    if(!response.ok) return {error:`${response.status}  ${response.statusText}`}
+    const data = await response.json()
+    console.log(data)
+    return data
+}
+export default { getAll, setToken, createPost, putLike}

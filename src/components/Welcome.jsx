@@ -1,6 +1,17 @@
 import { useState } from 'react'
+import blogService from '../services/blogService'
 
 export default function Welcome({ user, blogs, isloading, handleLogout }) {
+  const handleLike = async(blogId)=>{
+
+    const blogToUpdate = blogs.find(b=> b.id=== blogId)
+    blogService.putLike({...blogToUpdate, user: blogToUpdate.user.id, likes:1})
+    .then(response=> console.log(response))
+    .catch(err=>{
+      console.log(err)
+    })
+  }
+
   return (
     <div>
       <div>
@@ -25,7 +36,7 @@ export default function Welcome({ user, blogs, isloading, handleLogout }) {
           }}
         >
           {blogs.map((b) => (
-            <Card key={b.id} {...b} />
+            <Card key={b.id} {...b} sendLike={()=>handleLike((b.id))}/>
           ))}
         </div>
       ) : (
@@ -35,7 +46,7 @@ export default function Welcome({ user, blogs, isloading, handleLogout }) {
   )
 }
 
-const Card = ({ author, likes, title, url }) => {
+const Card = ({ author, likes, title, url, sendLike }) => {
   const [showDetails, setShowDetails] = useState(false)
 
   return (
@@ -48,7 +59,7 @@ const Card = ({ author, likes, title, url }) => {
         <div>
           <p>URL: {url} </p>
           <p>
-            Likes: {likes} <button>Like</button>
+            Likes: {likes} <button onClick={sendLike}>Like</button>
           </p>
           <p>Author: {author}</p>
         </div>

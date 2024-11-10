@@ -3,7 +3,7 @@ import { useState } from 'react'
 function NewBlogForm({ createNote, message }) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const [url, setUrl] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault()

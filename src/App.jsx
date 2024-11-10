@@ -19,6 +19,9 @@ function App() {
   const blogFormRef = useRef() 
   const loginFormRef = useRef()
 
+  const sortBlogsByLikes = (blogsArray)=>{
+    return blogsArray.sort((a,b)=> b.likes-a.likes)
+  }
   useEffect(() => {
     const storedUser = window.localStorage.getItem('loggedUser')
     if (storedUser) {
@@ -26,11 +29,11 @@ function App() {
       setUser(userLogged)
       blogService.setToken(userLogged.token)
     }
-
+    
     const fetchBlogs = async () => {
       try {
         const blogsData = await blogService.getAll()
-        setBlogs(blogsData)
+        setBlogs(sortBlogsByLikes(blogsData))
         setIsLoading(false)
       } catch (error) {
         console.log(error.message)
@@ -45,7 +48,7 @@ function App() {
     e.preventDefault()
     try {
       const userResponse = await loginService.login({ username, password })
-      if (userResponse.error) console.log(userResponse)
+      if (userResponse.error) setError(userResponse.error)
       else {
         window.localStorage.setItem('loggedUser', JSON.stringify(userResponse))
         blogService.setToken(userResponse.token)
@@ -70,6 +73,7 @@ function App() {
       if (response.error) {
         return setMessage(response.error)
       }
+      setBlogs( prevBlogs=> sortBlogsByLikes( prevBlogs.concat(response)))
       blogFormRef.current.toggleVisibility()
       setMessage('A new Blog by ' + response.author + ' was just added')
   }
@@ -93,6 +97,7 @@ function App() {
         isloading={isloading}
         handleLogout={handleLogout}
         loginVisible={loginVisible}
+        sortBlogsByLikes={sortBlogsByLikes}
         setLoginVisible={setLoginVisible}
       />
       <Toggable labelText = {'Post New Blog'} ref={blogFormRef}>

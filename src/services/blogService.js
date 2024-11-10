@@ -9,6 +9,7 @@ const getAll =async ()=>{
     })
     /* if(!response.ok) throw new Error(`${response.url} does not exist`) */
     const data =await response.json()
+    console.log(data)
     return data
     
 }
@@ -43,4 +44,19 @@ const putLike = async(object)=>{
     const data = await response.json()
     return data
 }
-export default { getAll, setToken, createPost, putLike}
+
+const deleteBlog = async(blogId) =>{
+    const response = await fetch(`${baseUrl}/${blogId}`, {
+        method:'DELETE',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization' : token
+        }
+    })
+    if (!response.ok) {
+        throw new Error('Error al eliminar el blog');
+      }
+
+    return null
+}
+export default { getAll, setToken, createPost, putLike, deleteBlog}

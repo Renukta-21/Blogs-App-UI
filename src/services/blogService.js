@@ -39,9 +39,8 @@ const putLike = async(object)=>{
             'Authorization': token
         }, body: JSON.stringify(object)
     })
-    if(!response.ok) return {error:`${response.status}  ${response.statusText}`}
+
     const data = await response.json()
-    console.log(data)
     return data
 }
 export default { getAll, setToken, createPost, putLike}

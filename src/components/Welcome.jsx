@@ -1,15 +1,19 @@
 import { useState } from 'react'
 import blogService from '../services/blogService'
 
-export default function Welcome({ user, blogs, isloading, handleLogout }) {
+export default function Welcome({ user, blogs, setBlogs, isloading, handleLogout }) {
+  const [error, setError] = useState(null)
   const handleLike = async(blogId)=>{
 
     const blogToUpdate = blogs.find(b=> b.id=== blogId)
     blogService.putLike({...blogToUpdate, user: blogToUpdate.user.id, likes:1})
-    .then(response=> console.log(response))
-    .catch(err=>{
-      console.log(err)
+    .then(response=> {
+      if(response.error){
+        return setError(`Error: ${response.error}: ${response.message}`)
+      }
+      setBlogs(prevBlogs=> prevBlogs.map(b=> b.id !== blogId ? b : response) )
     })
+    .catch(error => console.log(error))
   }
 
   return (
@@ -23,6 +27,7 @@ export default function Welcome({ user, blogs, isloading, handleLogout }) {
             <button onClick={handleLogout}>Logout</button>
           </>
         )}
+        <h3>{error&& <p style={{color:'red'}}>{error}</p> }</h3>
       </div>
       {isloading ? (
         <p>Loading... please wait</p>

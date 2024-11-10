@@ -89,6 +89,7 @@ function App() {
       <Welcome
         user={user}
         blogs={blogs}
+        setBlogs={setBlogs}
         isloading={isloading}
         handleLogout={handleLogout}
         loginVisible={loginVisible}

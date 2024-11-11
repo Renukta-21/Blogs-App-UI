@@ -104,9 +104,10 @@ const Card = ({
   const [showDetails, setShowDetails] = useState(false)
 
   return (
-    <div>
+    <div className='blogCard'>
       <div style={{ display: 'flex' }}>
         <p>Title: {title}</p>
+        <p>Author: {author}</p>
         <button onClick={() => setShowDetails(!showDetails)}>
           {showDetails ? 'Hide' : 'Show details'}
         </button>
@@ -122,7 +123,6 @@ const Card = ({
           <p>
             Likes: {likes} <button onClick={sendLike}>Like</button>
           </p>
-          <p>Author: {author}</p>
         </div>
       )}
       <hr />

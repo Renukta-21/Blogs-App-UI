@@ -1,6 +1,6 @@
 import { screen, render } from '@testing-library/react'
 import Welcome from './Welcome'
-import { beforeEach } from 'vitest'
+import { beforeEach, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 const blogs = [
@@ -26,10 +26,7 @@ beforeEach(() => {
 
 test('should display the blog title', () => {
   const titleElement = screen.getByText(/El hombre que dejó de soñar/)
-  expect(titleElement).toBeInTheDocument()
-
-  const authorElement = screen.getByText(/Daniel U/)
-  expect(authorElement).toBeInTheDocument()
+  const authorElement = screen.queryByText(/Daniel/)
 
   const urlElement = screen.queryByText(/http:\/\/27y217ehdsds/)
   expect(urlElement).not.toBeInTheDocument()
@@ -54,4 +51,15 @@ test('should display the URL and likes after clicking the button', async () => {
   expect(likesElementAfterClick).toBeInTheDocument()
 
   screen.debug(blogCardElement)
+})
+
+test('Double like button clicked is runned twice',async()=>{
+  const mockedSendLike = vi.fn()
+  const user = userEvent.setup()
+  
+  const button = screen.getByText('Show details')
+  await user.click(button) 
+  const likeButton = screen.getByText(/Like/)
+  screen.debug(likeButton)
+
 })

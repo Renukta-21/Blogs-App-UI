@@ -118,7 +118,7 @@ const Card = ({
         )}
       </div>
       {showDetails && (
-        <div>
+        <div className='blogCard_details'>
           <p>URL: {url} </p>
           <p>
             Likes: {likes} <button onClick={sendLike}>Like</button>

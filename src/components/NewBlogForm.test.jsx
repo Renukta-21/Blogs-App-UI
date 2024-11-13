@@ -16,6 +16,12 @@ test('Form calls eventHandler with correct details from props when new Blog crea
     await user.type(inputs[2], 'http//assaassa//sdadaa')
 
     await user.click( buttonCreate)
+    expect(addNoteMock).toHaveBeenCalledWith({
+        title:'Chacha very smooth',
+        author:'Pablo Erika',
+        url:'http//assaassa//sdadaa'
+
+    })
     screen.debug(inputs)
     
     

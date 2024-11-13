@@ -91,7 +91,7 @@ export default function Welcome({
   )
 }
 
-const Card = ({
+export const Card = ({
   author,
   likes,
   title,
@@ -104,7 +104,7 @@ const Card = ({
   const [showDetails, setShowDetails] = useState(false)
 
   return (
-    <div className='blogCard'>
+    <div data-testid = 'blogCard'>
       <div style={{ display: 'flex' }}>
         <p>Title: {title}</p>
         <p>Author: {author}</p>
@@ -118,10 +118,10 @@ const Card = ({
         )}
       </div>
       {showDetails && (
-        <div className='blogCard_details'>
+        <div>
           <p>URL: {url} </p>
           <p>
-            Likes: {likes} <button onClick={sendLike}>Like</button>
+            Likes: {likes} <button onClick={sendLike} data-testid='likeButton'>Like</button>
           </p>
         </div>
       )}

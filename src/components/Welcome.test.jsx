@@ -1,6 +1,5 @@
 import { screen, render } from '@testing-library/react'
-import Welcome from './Welcome'
-import { beforeEach, vi } from 'vitest'
+import Welcome, { Card } from './Welcome'
 import userEvent from '@testing-library/user-event'
 
 const blogs = [
@@ -14,17 +13,10 @@ const blogs = [
   },
 ]
 
-let container, blogCardElement
-beforeEach(() => {
-  container = render(
-    <Welcome blogs={blogs} user={{ username: 'testuser' }} isloading={false} />
-  ).container
-
-  blogCardElement = container.querySelector('.blogCard')
-  
-})
-
 test('should display the blog title', () => {
+  render(
+    <Welcome blogs={blogs} user={{ username: 'testuser' }} isloading={false} />
+  )
   const titleElement = screen.getByText(/El hombre que dejó de soñar/)
   const authorElement = screen.queryByText(/Daniel/)
 
@@ -36,6 +28,10 @@ test('should display the blog title', () => {
 })
 
 test('should display the URL and likes after clicking the button', async () => {
+
+  render(
+    <Welcome blogs={blogs} user={{ username: 'testuser' }} isloading={false} />
+  )
   const urlElement = screen.queryByText(/http:27y217ehdsds/)
   const likesElement = screen.queryByText(/20/)
   expect(urlElement).not.toBeInTheDocument()
@@ -50,16 +46,22 @@ test('should display the URL and likes after clicking the button', async () => {
   expect(urlElementAfterClick).toBeInTheDocument()
   expect(likesElementAfterClick).toBeInTheDocument()
 
-  screen.debug(blogCardElement)
+
 })
 
-test('Double like button clicked is runned twice',async()=>{
-  const mockedSendLike = vi.fn()
+test('Double like button clicked is runned twice', async () => {
+  const likeMockup = vi.fn()
   const user = userEvent.setup()
-  
-  const button = screen.getByText('Show details')
-  await user.click(button) 
-  const likeButton = screen.getByText(/Like/)
-  screen.debug(likeButton)
+  const container =
+    render(<Card user={blogs[0].user} sendLike={likeMockup} />)
+      .container
 
+  const showDetailsButton = screen.getByText('Show details')
+  await user.click(showDetailsButton)
+
+  const likeButton = screen.getByTestId('likeButton')
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  expect(likeMockup.mock.calls).toHaveLength(2)
 })

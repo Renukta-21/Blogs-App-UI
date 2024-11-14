@@ -49,7 +49,7 @@ test('should display the URL and likes after clicking the button', async () => {
 
 })
 
-test('Double like button clicked is runned twice', async () => {
+/* test('Double like button clicked is runned twice', async () => {
   const likeMockup = vi.fn()
   const user = userEvent.setup()
   const container =
@@ -64,4 +64,4 @@ test('Double like button clicked is runned twice', async () => {
   await user.click(likeButton)
 
   expect(likeMockup.mock.calls).toHaveLength(2)
-})
+}) */

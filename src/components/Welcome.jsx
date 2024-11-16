@@ -111,7 +111,7 @@ export const Card = ({
         <button onClick={() => setShowDetails(!showDetails)}>
           {showDetails ? 'Hide' : 'Show details'}
         </button>
-        {currentUser?.username === user.username && (
+        {currentUser && currentUser.username === user?.username && (
           <button style={{ marginLeft: '10px' }} onClick={sendDelete}>
             Delete Blog
           </button>
